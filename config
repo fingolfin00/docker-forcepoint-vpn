@@ -1,0 +1,14 @@
+Host juno1
+ HostName login1.juno.cmcc.scc
+ User ${VPN_USERNAME} 
+ ServerAliveInterval 300
+ ServerAliveCountMax 2
+ ForwardAgent yes
+ ForwardX11 yes
+Host juno2
+ HostName login2.juno.cmcc.scc
+ User ${VPN_USERNAME}
+ ServerAliveInterval 300
+ ServerAliveCountMax 2
+ ForwardAgent yes
+ ForwardX11 yes

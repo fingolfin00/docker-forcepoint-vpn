@@ -1,0 +1,31 @@
+services:
+  forcepoint:
+    build:
+      context: .
+      args:
+        - VPN_USERNAME=${VPN_USERNAME}
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    privileged: true
+    env_file: "./user.env"
+    container_name: forcepoint-vpn
+    image: forcepoint:latest
+    network_mode: "host"
+    cap_drop:
+      - NET_ADMIN
+#    ports:
+#      # Expose port of the proxy container
+#      - "80:80/tcp"
+#      - "20:20/tcp"
+#      - "430:430/tcp"
+    dns:
+      - ${VPN_DNS}
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+      - "/dev/snd/controlC0:/dev/snd/controlC0"
+      - "/dev/snd/pcmC0D0p:/dev/snd/pcmC0D0p"
+      - "/dev/snd/time:/dev/snd/time"
+    shm_size: 384m
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${XAUTHORITY}:/tmp/.host_Xauthority:ro
