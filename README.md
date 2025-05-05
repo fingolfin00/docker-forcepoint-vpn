@@ -17,7 +17,7 @@ This project provides a Dockerized setup for accessing CMCC Forcepoint VPN servi
 
 ## Getting Started
 
-1. Clone the repository:
+1. Clone the repository in a working folder:
 
     ```bash
     git clone https://github.com/your-username/docker-forcepoint.git
@@ -30,17 +30,21 @@ This project provides a Dockerized setup for accessing CMCC Forcepoint VPN servi
         VPN_USERNAME=<your-CMCC-username>
         VPN_PASSWORD=<your-CMCC-password>
     ```
+    And update the .env file with the VPN username only:
+    ```env
+        VPN_USERNAME=<your-CMCC-username>
+    ```
 
-3. Build the Docker image:
+3. Build the Docker image in the working folder:
 
     ```bash
-    docker compose build -t forcepoint-cmcc .
+    docker compose build forcepoint
     ```
 
 4. Run the container:
 
     ```bash
-    VPN_OTP=<your-CMCC-OTPcode> docker compose run --name forcepoint-cmcc-container forcepoint-cmcc
+    VPN_OTP=<your-CMCC-OTPcode> docker compose run --name forcepoint forcepoint
     ```
 
 ## Configuration
@@ -76,3 +80,4 @@ This project is licensed under the GNU GPLv3.
 ## Acknowledgments
 
 Original scripts and Firefox docker configuration by Robert Cernansky.
+

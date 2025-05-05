@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-LABEL version = "0.1.0" \
+LABEL version = "0.1.1" \
       description = "Forcepoint VPN client" \
       author = fingolfin00
 
@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libssl1.1 \
     libexpat1 libnl-route-3-200 libnl-3-200 \
     apt-utils debconf-utils dialog iputils-ping \
-    ssh dbus iproute2 systemd \
+    ssh dbus iproute2 systemd screen tmux \
     apulse \
     unzip \
     bzip2 xz-utils \
@@ -105,6 +105,9 @@ RUN profile=docker.default && \
     chown -R appuser:appuser /home/appuser/.mozilla
 
 RUN /bin/echo -e 'user_pref("browser.fixup.dns_first_for_single_words", true);' >> /home/appuser/.mozilla/firefox/docker.default/user.js
+RUN /bin/echo -e 'user_pref("browser.startup.homepage", "http://wiki.cmcc.scc/");' >> /home/appuser/.mozilla/firefox/docker.default/user.js
+RUN /bin/echo -e 'user_pref("browser.uiCustomization.state", "{\"placements\":{\"widget-overflow-fixed-list\":[],\"unified-extensions-area\":[],\"nav-bar\":[\"back-button\",\"forward-button\",\"stop-reload-button\",\"customizableui-special-spring1\",\"vertical-spacer\",\"urlbar-container\",\"customizableui-special-spring2\",\"save-to-pocket-button\",\"home-button\",\"downloads-button\",\"fxa-toolbar-menu-button\",\"unified-extensions-button\"],\"toolbar-menubar\":[\"menubar-items\"],\"TabsToolbar\":[\"firefox-view-button\",\"tabbrowser-tabs\",\"new-tab-button\",\"alltabs-button\"],\"vertical-tabs\":[],\"PersonalToolbar\":[\"import-button\",\"personal-bookmarks\"]},\"seen\":[\"save-to-pocket-button\",\"developer-button\"],\"dirtyAreaCache\":[\"nav-bar\",\"vertical-tabs\",\"PersonalToolbar\"],\"currentVersion\":22,\"newElementCount\":3}");' >> /home/appuser/.mozilla/firefox/docker.default/user.js
+RUN /bin/echo -e 'user_pref("browser.engagement.home-button.has-used", true);' >> /home/appuser/.mozilla/firefox/docker.default/user.js
 
 #ENTRYPOINT forcepoint-client ${VPN_IPADDR} --certaccept --resolver /usr/bin/systemd-resolve --verbose --daemonize --user ${VPN_USERNAME} --password ${VPN_PASSWORD}${VPN_OTP}
 ENTRYPOINT docker-forcepoint.sh
