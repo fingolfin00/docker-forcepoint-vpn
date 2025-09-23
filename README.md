@@ -20,7 +20,7 @@ This project provides a Dockerized setup for accessing CMCC Forcepoint VPN servi
 1. Clone the repository in a working folder:
 
     ```bash
-    git clone https://github.com/your-username/docker-forcepoint.git
+    git clone https://github.com/fingolfin00/docker-forcepoint.git
     cd docker-forcepoint
     ```
 
