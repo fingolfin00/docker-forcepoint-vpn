@@ -30,9 +30,10 @@ This project provides a Dockerized setup for accessing CMCC Forcepoint VPN servi
         VPN_USERNAME=<your-CMCC-username>
         VPN_PASSWORD=<your-CMCC-password>
     ```
-    And update the .env file with the VPN username only:
+    And update the .env file with the VPN username and the custom docker root password:
     ```env
         VPN_USERNAME=<your-CMCC-username>
+        DOCKER_ROOT_PWD=<pick-a-pwd>
     ```
 
 3. Build the Docker image in the working folder:
@@ -56,6 +57,7 @@ This project provides a Dockerized setup for accessing CMCC Forcepoint VPN servi
   - `VPN_OTP`: One-time password for VPN authentication.
   - `DISPLAY`: Host's X11 display variable.
   - `VPN_DNS`: DNS server for the VPN.
+  - `DOCKER_ROOT_PWD`: the root password of the Docker container.
 
 ## Files Overview
 
