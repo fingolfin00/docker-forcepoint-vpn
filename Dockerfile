@@ -37,7 +37,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libdbus-glib-1-2 \
     libx11-xcb1 \
     libevent-dev \
-    libxtst6
+    libxtst6 \
+    openssh-server \
+
+ARG DOCKER_ROOT_PWD
+ENV DOCKER_ROOT_PWD=${DOCKER_ROOT_PWD}
+RUN echo "root:${DOCKER_ROOT_PWD}" | chpasswd
+RUN sed -i "s|#PermitRootLogin prohibit-password|PermitRootLogin yes|g" "/etc/ssh/sshd_config"
 
 RUN useradd --shell /bin/false --create-home appuser
 

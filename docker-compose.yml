@@ -4,6 +4,7 @@ services:
       context: .
       args:
         - VPN_USERNAME=${VPN_USERNAME}
+        - DOCKER_ROOT_PWD=${DOCKER_ROOT_PWD}
     stdin_open: true # docker run -i
     tty: true        # docker run -t
     privileged: true
