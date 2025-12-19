@@ -1,0 +1,3 @@
+Host *.cmcc.scc
+ GSSAPIAuthentication yes
+ GSSAPIDelegateCredentials yes

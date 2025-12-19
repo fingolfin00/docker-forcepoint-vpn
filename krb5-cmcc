@@ -1,0 +1,19 @@
+[libdefaults]
+    default_realm = IDM.CMCC.SCC
+    dns_lookup_realm = false
+    dns_lookup_kdc = true
+    rdns = false
+    ticket_lifetime = 24h
+    forwardable = true
+    udp_preference_limit = 0
+    default_ccache_name = FILE:/tmp/krb5cc_%{uid}
+[realms]
+    IDM.CMCC.SCC = {
+      kdc = master.idm.cmcc.scc:88
+      default_domain = idm.cmcc.scc
+      pkinit_anchors = FILE:/etc/ssl/certs/ca-certificates.crt
+    }
+[domain_realm]
+    .idm.cmcc.scc = IDM.CMCC.SCC
+    idm.cmcc.scc = IDM.CMCC.SCC
+    master.idm.cmcc.scc = IDM.CMCC.SCC

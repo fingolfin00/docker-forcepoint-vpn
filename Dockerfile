@@ -39,11 +39,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libevent-dev \
     libxtst6 \
     openssh-server \
+    krb5-user krb5-otp krb5-pkinit
 
 ARG DOCKER_ROOT_PWD
 ENV DOCKER_ROOT_PWD=${DOCKER_ROOT_PWD}
 RUN echo "root:${DOCKER_ROOT_PWD}" | chpasswd
 RUN sed -i "s|#PermitRootLogin prohibit-password|PermitRootLogin yes|g" "/etc/ssh/sshd_config"
+RUN sed -i "s|#PasswordAuthentication yes|PasswordAuthentication yes|g" "/etc/ssh/sshd_config"
 
 RUN useradd --shell /bin/false --create-home appuser
 
@@ -114,6 +116,14 @@ RUN /bin/echo -e 'user_pref("browser.fixup.dns_first_for_single_words", true);' 
 RUN /bin/echo -e 'user_pref("browser.startup.homepage", "http://wiki.cmcc.scc/");' >> /home/appuser/.mozilla/firefox/docker.default/user.js
 RUN /bin/echo -e 'user_pref("browser.uiCustomization.state", "{\"placements\":{\"widget-overflow-fixed-list\":[],\"unified-extensions-area\":[],\"nav-bar\":[\"back-button\",\"forward-button\",\"stop-reload-button\",\"customizableui-special-spring1\",\"vertical-spacer\",\"urlbar-container\",\"customizableui-special-spring2\",\"save-to-pocket-button\",\"home-button\",\"downloads-button\",\"fxa-toolbar-menu-button\",\"unified-extensions-button\"],\"toolbar-menubar\":[\"menubar-items\"],\"TabsToolbar\":[\"firefox-view-button\",\"tabbrowser-tabs\",\"new-tab-button\",\"alltabs-button\"],\"vertical-tabs\":[],\"PersonalToolbar\":[\"import-button\",\"personal-bookmarks\"]},\"seen\":[\"save-to-pocket-button\",\"developer-button\"],\"dirtyAreaCache\":[\"nav-bar\",\"vertical-tabs\",\"PersonalToolbar\"],\"currentVersion\":22,\"newElementCount\":3}");' >> /home/appuser/.mozilla/firefox/docker.default/user.js
 RUN /bin/echo -e 'user_pref("browser.engagement.home-button.has-used", true);' >> /home/appuser/.mozilla/firefox/docker.default/user.js
+
+RUN /usr/bin/mkdir -p /root/.config/krb5
+COPY krb5-cmcc /etc/krb5.conf
+COPY cmcc.crt /usr/local/share/ca-certificates/cmcc.crt
+RUN update-ca-certificates
+
+RUN --mount=type=bind,source=ssh-config-cmcc,target=/tmp/ssh-config-cmcc \
+    cat /tmp/ssh-config-cmcc >> /etc/ssh/ssh_config
 
 #ENTRYPOINT forcepoint-client ${VPN_IPADDR} --certaccept --resolver /usr/bin/systemd-resolve --verbose --daemonize --user ${VPN_USERNAME} --password ${VPN_PASSWORD}${VPN_OTP}
 ENTRYPOINT docker-forcepoint.sh
