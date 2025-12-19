@@ -30,3 +30,4 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ${XAUTHORITY}:/tmp/.host_Xauthority:ro
+      - "/etc/localtime:/etc/localtime:ro"
