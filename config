@@ -5,6 +5,8 @@ Host juno1
  ServerAliveCountMax 2
  ForwardAgent yes
  ForwardX11 yes
+ GSSAPIAuthentication yes
+ GSSAPIDelegateCredentials yes
 Host juno2
  HostName login2.juno.cmcc.scc
  User ${VPN_USERNAME}
@@ -12,3 +14,5 @@ Host juno2
  ServerAliveCountMax 2
  ForwardAgent yes
  ForwardX11 yes
+ GSSAPIAuthentication yes
+ GSSAPIDelegateCredentials yes
